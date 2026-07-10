@@ -1,0 +1,7 @@
+node_modules/
+out/*.mp4
+public/uploads/*
+!public/uploads/.gitkeep
+!out/.gitkeep
+.remotion/
+.DS_Store

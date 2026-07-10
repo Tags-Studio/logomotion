@@ -1,0 +1,26 @@
+{
+  "name": "logomotion-clone",
+  "version": "0.1.0",
+  "private": true,
+  "description": "أداة تحويل اللوجو لفيديو أنيميشن - ستايل Match Cut (نسخة MVP مبنية بـ Remotion)",
+  "scripts": {
+    "server": "node server/index.js",
+    "studio": "remotion studio src/remotion/index.jsx",
+    "postinstall": "npx remotion browser ensure"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "@remotion/bundler": "4.0.190",
+    "@remotion/cli": "4.0.190",
+    "@remotion/renderer": "4.0.190",
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "multer": "^1.4.5-lts.1",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "remotion": "4.0.190",
+    "uuid": "^9.0.1"
+  }
+}
