@@ -20,7 +20,12 @@ export const RemotionRoot = () => {
         height={HEIGHT}
         defaultProps={{
           logoUrl: 'https://via.placeholder.com/400x400/000/fff?text=LOGO',
-          bgUrl: null,
+          logoSize: 200,
+          logoX: 0,
+          logoY: 0,
+          brandColors: ['#0047ff', '#0f0a0e', '#eab4b0', '#ffffff', '#000000', '#1a43f4'],
+          audioUrl: null,
+          animatedStyle: 'standard',
         }}
       />
       <Composition

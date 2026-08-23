@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Logomotion Studio — Match Cut Editor</title>
+  <link rel="stylesheet" href="editor.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <!-- Top Navigation Bar -->
+  <header class="editor-header">
+    <div class="header-left">
+      <a href="/" class="app-logo-link" title="Home">
+        <div class="app-logo-bars">
+          <span></span><span></span><span></span><span></span><span></span>
+        </div>
+      </a>
+      <button class="header-btn" id="openProjectBtn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2Z"/></svg>
+        Open
+      </button>
+      <button class="header-btn" id="saveProjectBtn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+        Save
+      </button>
+    </div>
+
+    <div class="header-right">
+      <a href="/" class="header-text-btn">Dashboard</a>
+      <button class="header-text-btn">Sign out</button>
+    </div>
+  </header>
+
+  <!-- Main Workspace -->
+  <main class="editor-workspace">
+    <!-- Left Sidebar: Controls -->
+    <aside class="editor-sidebar" id="sidebar">
+      
+      <!-- Upload Logo Banner -->
+      <div class="sidebar-upload-banner" id="logoUploadBanner">
+        <input type="file" id="logoFileInput" accept="image/*,.svg" hidden />
+        <div class="upload-icon-circle">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+        </div>
+        <div class="upload-info">
+          <div class="upload-filename" id="logoFilenameLabel">registered.png</div>
+          <div class="upload-hint">or click to browse - PNG, SVG, JPEG, WebP</div>
+        </div>
+      </div>
+
+      <!-- Section: Brand settings -->
+      <div class="sidebar-accordion" data-section="brand-settings">
+        <button class="accordion-header">
+          <span>Brand settings</span>
+          <svg class="chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="accordion-content">
+          <div class="control-row">
+            <label>Brand Name</label>
+            <input type="text" id="brandNameInput" class="text-input" placeholder="e.g. Acme Corp" value="Registered" />
+          </div>
+          <div class="control-row">
+            <label>Tagline / Caption</label>
+            <input type="text" id="brandTaglineInput" class="text-input" placeholder="Optional text" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Section: Logo layout (Default Open) -->
+      <div class="sidebar-accordion open" data-section="logo-layout">
+        <button class="accordion-header">
+          <span>Logo layout</span>
+          <svg class="chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="accordion-content">
+          <!-- Logo Size -->
+          <div class="control-slider-group">
+            <div class="slider-header">
+              <span class="slider-title">LOGO SIZE</span>
+              <span class="slider-val" id="logoSizeVal">200px</span>
+            </div>
+            <div class="slider-row">
+              <button class="step-btn" id="logoSizeMinus">-</button>
+              <input type="range" id="logoSizeSlider" min="60" max="400" value="200" class="styled-slider" />
+              <button class="step-btn" id="logoSizePlus">+</button>
+            </div>
+          </div>
+
+          <!-- Left / Right -->
+          <div class="control-slider-group">
+            <div class="slider-header">
+              <span class="slider-title">Left / Right</span>
+              <span class="slider-val" id="logoXVal">0%</span>
+            </div>
+            <input type="range" id="logoXSlider" min="-50" max="50" value="0" class="styled-slider" />
+          </div>
+
+          <!-- Up / Down -->
+          <div class="control-slider-group">
+            <div class="slider-header">
+              <span class="slider-title">Up / Down</span>
+              <span class="slider-val" id="logoYVal">0%</span>
+            </div>
+            <input type="range" id="logoYSlider" min="-50" max="50" value="0" class="styled-slider" />
+          </div>
+
+          <!-- Reset Defaults -->
+          <button class="btn-subtle-full" id="resetLayoutBtn">Reset defaults</button>
+        </div>
+      </div>
+
+      <!-- Section: Brand colours -->
+      <div class="sidebar-accordion" data-section="brand-colours">
+        <button class="accordion-header">
+          <span>Brand colours</span>
+          <svg class="chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="accordion-content">
+          <button class="btn-subtle-full" id="randomPaletteBtn">Random palette</button>
+          
+          <div class="color-swatches-list" id="colorSwatchesList">
+            <!-- 6 swatches dynamically rendered -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Section: Audio -->
+      <div class="sidebar-accordion" data-section="audio">
+        <button class="accordion-header">
+          <span>Audio</span>
+          <svg class="chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="accordion-content">
+          <div class="audio-header-status">
+            <span>Preset audio</span>
+            <span class="current-preset-label" id="currentAudioLabel">Audio 1</span>
+          </div>
+
+          <div class="audio-presets-grid">
+            <button class="preset-btn active" data-audio="1">Audio 1</button>
+            <button class="preset-btn" data-audio="2">Audio 2</button>
+            <button class="preset-btn" data-audio="3">Audio 3</button>
+            <button class="preset-btn" data-audio="4">Audio 4</button>
+            <button class="preset-btn" data-audio="5">Audio 5</button>
+            <button class="preset-btn" data-audio="6">Audio 6</button>
+            <button class="preset-btn" data-audio="none">None</button>
+          </div>
+
+          <div class="custom-audio-box">
+            <button class="accordion-sub-header" id="customAudioToggle">
+              <span>Custom audio</span>
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="custom-audio-content" id="customAudioContent" style="display:none;">
+              <input type="file" id="customAudioInput" accept="audio/*" hidden />
+              <button class="btn-subtle-full" id="customAudioBtn">Upload MP3 / WAV</button>
+              <div class="custom-audio-name" id="customAudioName"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section: Advanced settings -->
+      <div class="sidebar-accordion" data-section="advanced-settings">
+        <button class="accordion-header">
+          <span>Advanced settings</span>
+          <svg class="chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="accordion-content">
+          <div class="setting-group">
+            <label class="setting-group-label">BRAND FONT</label>
+            <div class="font-current-row">
+              <span id="currentFontName">Default (Inter)</span>
+            </div>
+            <button class="btn-subtle-full" id="uploadFontBtn">Upload font</button>
+            <input type="file" id="fontFileInput" accept=".woff2,.woff,.ttf,.otf" hidden />
+            <span class="setting-subtext">WOFF2, WOFF, TTF, or OTF stays in your browser</span>
+          </div>
+
+          <div class="setting-group">
+            <label class="setting-group-label">REDUCED FLASH / STYLE</label>
+            <div class="style-select-stack">
+              <button class="style-choice-btn active" data-style="standard">Standard</button>
+              <button class="style-choice-btn" data-style="softer">Softer Insert</button>
+              <button class="style-choice-btn" data-style="fewer-cuts">Fewer cuts</button>
+            </div>
+            <span class="setting-subtext">Full alternate match-cut flash</span>
+          </div>
+        </div>
+      </div>
+
+    </aside>
+
+    <!-- Center Stage: Canvas & Live Interactive Preview -->
+    <section class="editor-stage">
+      <div class="preview-viewport-wrapper">
+        <!-- 9:16 Canvas Mockup -->
+        <div class="preview-screen-container" id="previewScreenContainer">
+          
+          <!-- Background Peeling Texture Layers -->
+          <div class="concrete-wall" id="concreteWall">
+            <div class="concrete-panel top-panel" id="topPanel">
+              <div class="concrete-texture"></div>
+              <div class="crack-lines"></div>
+            </div>
+            <div class="concrete-panel bottom-panel" id="bottomPanel">
+              <div class="concrete-texture"></div>
+              <div class="crack-lines"></div>
+            </div>
+            <div class="crease-shadow" id="creaseShadow"></div>
+          </div>
+
+          <!-- The Color Card that is revealed -->
+          <div class="brand-card-layer" id="brandCardLayer">
+            <div class="brand-card" id="brandCard">
+              <img id="stageLogoImg" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='none' stroke='white' stroke-width='8'/%3E%3Ctext x='50' y='65' font-size='44' font-family='Arial, sans-serif' font-weight='bold' fill='white' text-anchor='middle'%3ER%3C/text%3E%3C/svg%3E" alt="Brand Logo" />
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Bottom Timeline & Scrubber Bar -->
+      <footer class="editor-timeline">
+        <button class="timeline-play-btn" id="playPauseBtn" title="Play/Pause">
+          <svg id="playIcon" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          <svg id="pauseIcon" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="display:none;"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+        </button>
+
+        <span class="timeline-time" id="currentTimeLabel">0:00</span>
+
+        <div class="timeline-scrubber" id="timelineScrubber">
+          <div class="scrubber-track">
+            <div class="scrubber-ticks">
+              <!-- Frame tick marks -->
+              <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+              <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+            </div>
+            <div class="scrubber-progress" id="scrubberProgress"></div>
+            <div class="scrubber-handle" id="scrubberHandle"></div>
+          </div>
+        </div>
+
+        <span class="timeline-duration">0:04</span>
+
+        <button class="timeline-action-btn" id="loopToggleBtn" title="Loop Toggle">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m17 2 4 4-4 4"/><path d="M3 11v-1a4 4 0 0 1 4-4h14"/><path d="m7 22-4-4 4-4"/><path d="M21 13v1a4 4 0 0 1-4 4H3"/></svg>
+        </button>
+
+        <button class="feedback-pill-btn">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          Feedback
+        </button>
+      </footer>
+    </section>
+
+    <!-- Right Controls: Download & Export settings -->
+    <aside class="editor-export-pane">
+      <button class="btn-download-video" id="downloadVideoBtn">
+        <span>Download Video</span>
+      </button>
+
+      <div class="frames-select-group">
+        <label for="framesSelect">Frames</label>
+        <select id="framesSelect" class="frames-dropdown">
+          <option value="1">24 frames</option>
+          <option value="1" selected>30 frames</option>
+          <option value="2">60 frames (2x)</option>
+        </select>
+      </div>
+
+      <!-- Export Render Overlay Modal -->
+      <div class="export-modal-backdrop" id="exportModal" style="display:none;">
+        <div class="export-modal-card">
+          <div class="export-spinner"></div>
+          <h3 id="exportStatusTitle">Rendering your video...</h3>
+          <p id="exportStatusSubtitle">Processing frame compositions with Remotion</p>
+          <div class="export-progress-bar">
+            <div class="export-progress-fill" id="exportProgressFill"></div>
+          </div>
+          <div id="exportActionArea" style="margin-top:20px; display:none;">
+            <a id="exportDownloadLink" class="btn-download-video" download>Save MP4 File</a>
+            <button class="btn-subtle-full" style="margin-top:10px;" onclick="closeExportModal()">Close</button>
+          </div>
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <script src="editor.js"></script>
+</body>
+</html>
